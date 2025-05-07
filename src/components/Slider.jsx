@@ -23,6 +23,7 @@ const Slider = ({
   titleHidden = false,
   titleAnimating = false,
   currentProjectIndex = 0,
+  previousTouchY = 0
 }) => {
   const sliderRef = useRef();
 
@@ -228,6 +229,24 @@ const Slider = ({
       { passive: false }
     );
 
+    window.addEventListener("touchmove", (event) => {
+      event.preventDefault();
+    
+      isSnapping = false;
+      isStable = false;
+    
+      hideTitle();
+    
+      const touchDelta = event.touches[0].clientY - previousTouchY;
+      targetScrollIntensity += touchDelta * 0.001;
+      targetScrollIntensity = Math.max(-maxScrollIntensity, Math.min(maxScrollIntensity, targetScrollIntensity));
+    
+      targetScrollPosition += touchDelta * 0.001;
+    
+      previousTouchY = event.touches[0].clientY; // Store last touch position
+      isMoving = true;
+    }, { passive: false });
+
     function animate() {
       requestAnimationFrame(animate);
 
@@ -302,6 +321,7 @@ const Slider = ({
     titleHidden,
     titleAnimating,
     currentProjectIndex,
+    previousTouchY,
   ]);
 
   return (
