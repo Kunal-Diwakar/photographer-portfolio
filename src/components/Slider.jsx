@@ -238,10 +238,10 @@ const Slider = ({
       hideTitle();
     
       const touchDelta = event.touches[0].clientY - previousTouchY;
-      targetScrollIntensity += touchDelta * 0.001;
+      targetScrollIntensity += touchDelta * 0.005;
       targetScrollIntensity = Math.max(-maxScrollIntensity, Math.min(maxScrollIntensity, targetScrollIntensity));
     
-      targetScrollPosition += touchDelta * 0.001;
+      targetScrollPosition += touchDelta * 0.005;
     
       previousTouchY = event.touches[0].clientY; // Store last touch position
       isMoving = true;
